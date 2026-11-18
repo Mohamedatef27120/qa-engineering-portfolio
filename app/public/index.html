@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TaskFlow QA is a deterministic task-management app built for a professional software testing portfolio."
+    />
+    <title>TaskFlow QA</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-glow page-glow--one" aria-hidden="true"></div>
+    <div class="page-glow page-glow--two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="TaskFlow QA home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M8 16.5 13 21l11-11" /></svg>
+        </span>
+        <span>TaskFlow <strong>QA</strong></span>
+      </a>
+      <div id="user-menu" class="user-menu hidden">
+        <div class="user-menu__identity">
+          <span id="user-avatar" class="avatar" aria-hidden="true">Q</span>
+          <span><strong id="user-name">QA User</strong><small id="user-role">Writer</small></span>
+        </div>
+        <button id="logout-button" class="button button--ghost button--small" type="button">
+          Sign out
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section id="login-view" class="login-layout" aria-labelledby="login-heading">
+        <div class="login-story">
+          <p class="eyebrow"><span></span> Built for reliable testing</p>
+          <h1 id="login-heading">Turn careful testing into confident delivery.</h1>
+          <p class="login-story__lead">
+            A deliberately testable task workspace with controlled data, clear business rules, and
+            honest automation evidence.
+          </p>
+          <div class="quality-list" aria-label="Quality features">
+            <div class="quality-list__item">
+              <span class="quality-list__icon" aria-hidden="true">01</span>
+              <span><strong>Deterministic</strong>Isolated workspaces prevent collisions.</span>
+            </div>
+            <div class="quality-list__item">
+              <span class="quality-list__icon" aria-hidden="true">02</span>
+              <span><strong>Traceable</strong>Requirements connect to test evidence.</span>
+            </div>
+            <div class="quality-list__item">
+              <span class="quality-list__icon" aria-hidden="true">03</span>
+              <span><strong>Observable</strong>Reports and traces support debugging.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-card surface">
+          <p class="eyebrow eyebrow--dark">Portfolio environment</p>
+          <h2>Welcome back</h2>
+          <p class="muted">Use either local demo account. These are not real credentials.</p>
+          <form id="login-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="username"
+                aria-required="true"
+              />
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                aria-required="true"
+              />
+            </div>
+            <p id="login-error" class="form-error hidden" role="alert"></p>
+            <button class="button button--primary button--wide" type="submit">Sign in</button>
+          </form>
+          <div class="demo-accounts">
+            <p>Quick-fill a demo account</p>
+            <div class="demo-accounts__actions">
+              <button class="account-chip" type="button" data-account="writer">
+                <span class="account-chip__dot account-chip__dot--writer"></span>Writer
+              </button>
+              <button class="account-chip" type="button" data-account="viewer">
+                <span class="account-chip__dot account-chip__dot--viewer"></span>Read-only viewer
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="app-view" class="app-shell hidden" aria-labelledby="board-heading">
+        <div class="board-header">
+          <div>
+            <p class="eyebrow eyebrow--dark">Quality delivery workspace</p>
+            <h1 id="board-heading">Task board</h1>
+            <p class="muted">Plan, prioritize, and follow work from idea to done.</p>
+          </div>
+          <div class="workspace-badge">
+            <span>Workspace</span><strong id="workspace-label">demo</strong>
+          </div>
+        </div>
+
+        <div class="summary-grid" aria-label="Task summary">
+          <article class="summary-card summary-card--total">
+            <span class="summary-card__label">Total tasks</span><strong id="count-total">0</strong
+            ><span class="summary-card__detail">In this view</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-card__label"><i class="status-dot status-dot--todo"></i>To do</span
+            ><strong id="count-todo">0</strong
+            ><span class="summary-card__detail">Ready to start</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-card__label"
+              ><i class="status-dot status-dot--progress"></i>In progress</span
+            ><strong id="count-progress">0</strong
+            ><span class="summary-card__detail">Actively moving</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-card__label"><i class="status-dot status-dot--done"></i>Done</span
+            ><strong id="count-done">0</strong
+            ><span class="summary-card__detail">Completed work</span>
+          </article>
+        </div>
+
+        <div id="read-only-notice" class="notice hidden" role="status">
+          <strong>Read-only access</strong> You can review and filter tasks. Sign in as the writer
+          to create or change work.
+        </div>
+
+        <div class="workspace-grid">
+          <aside id="task-editor" class="editor-card surface" aria-labelledby="editor-heading">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Task details</p>
+                <h2 id="editor-heading">Create a task</h2>
+              </div>
+              <button id="cancel-edit" class="text-button hidden" type="button">Cancel edit</button>
+            </div>
+            <form id="task-form" novalidate>
+              <div class="field">
+                <div class="label-row">
+                  <label for="title">Title</label><small><span id="title-count">0</span>/80</small>
+                </div>
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  aria-required="true"
+                  aria-describedby="title-error"
+                />
+                <p id="title-error" class="field-error hidden" role="alert"></p>
+              </div>
+              <div class="field">
+                <div class="label-row">
+                  <label for="description">Description</label
+                  ><small><span id="description-count">0</span>/500</small>
+                </div>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  aria-describedby="description-error"
+                ></textarea>
+                <p id="description-error" class="field-error hidden" role="alert"></p>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="priority">Priority</label>
+                  <select id="priority" name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="status">Status</label>
+                  <select id="status" name="status">
+                    <option value="todo" selected>To do</option>
+                    <option value="in-progress">In progress</option>
+                    <option value="done">Done</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="due-date">Due date <span class="optional">Optional</span></label>
+                <input id="due-date" name="dueDate" type="date" aria-label="Due date" />
+              </div>
+              <p id="task-form-error" class="form-error hidden" role="alert"></p>
+              <button id="task-submit" class="button button--primary button--wide" type="submit">
+                Create task
+              </button>
+            </form>
+          </aside>
+
+          <section class="tasks-panel" aria-labelledby="tasks-heading">
+            <div class="tasks-toolbar surface">
+              <div class="search-field">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <path d="m20 20-4-4"></path>
+                </svg>
+                <label class="sr-only" for="search">Search</label>
+                <input id="search" type="search" placeholder="Search title or description" />
+              </div>
+              <div class="toolbar-filters">
+                <label class="sr-only" for="status-filter">Status filter</label>
+                <select id="status-filter">
+                  <option value="">All statuses</option>
+                  <option value="todo">To do</option>
+                  <option value="in-progress">In progress</option>
+                  <option value="done">Done</option>
+                </select>
+                <label class="sr-only" for="priority-filter">Priority filter</label>
+                <select id="priority-filter">
+                  <option value="">All priorities</option>
+                  <option value="low">Low priority</option>
+                  <option value="medium">Medium priority</option>
+                  <option value="high">High priority</option>
+                </select>
+                <button id="clear-filters" class="button button--ghost button--small" type="button">
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <div class="tasks-title-row">
+              <div>
+                <p class="section-kicker">Current view</p>
+                <h2 id="tasks-heading">Your tasks</h2>
+              </div>
+              <span id="result-count" class="result-count">0 tasks</span>
+            </div>
+            <div id="loading-state" class="state-card surface" role="status">Loading tasks…</div>
+            <div id="empty-state" class="state-card surface hidden">
+              <span class="empty-icon" aria-hidden="true">✓</span>
+              <h3>No tasks found</h3>
+              <p>Adjust the filters or create a task to get started.</p>
+            </div>
+            <div id="task-list" class="task-list" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="delete-dialog" class="confirm-dialog" aria-labelledby="delete-dialog-title">
+      <form method="dialog">
+        <span class="confirm-dialog__icon" aria-hidden="true">!</span>
+        <h2 id="delete-dialog-title">Delete task</h2>
+        <p id="delete-dialog-copy">This action cannot be undone.</p>
+        <div class="confirm-dialog__actions">
+          <button id="cancel-delete" class="button button--ghost" value="cancel">Cancel</button>
+          <button id="confirm-delete" class="button button--danger" value="confirm">Delete</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+node_modules/
+.playwright-browsers/
+dist/
+.env
+playwright-report/
+test-results/
+blob-report/
+screenshots/*.png
+!screenshots/.gitkeep
+!screenshots/taskflow-dashboard.png
+!screenshots/regression-report.png
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

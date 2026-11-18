@@ -1,0 +1,49 @@
+{
+  "name": "taskflow-qa-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A production-style QA engineering portfolio built around a deterministic local task-management application.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "cross-env PORT=4180 TEST_MODE=true tsx watch app/src/server.ts",
+    "start": "tsx app/src/server.ts",
+    "start:test": "cross-env PORT=4180 TEST_MODE=true tsx app/src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start:prod": "node dist/server.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "browsers:install": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers playwright install chromium firefox webkit",
+    "browsers:install:ci": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers playwright install --with-deps chromium firefox webkit",
+    "test:api": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=api node scripts/run-tests.mjs tests/api --project=api",
+    "test:ui": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=ui-chromium node scripts/run-tests.mjs tests/ui --project=chromium",
+    "test:ui:firefox": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=ui-firefox node scripts/run-tests.mjs tests/ui --project=firefox",
+    "test:ui:webkit": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=ui-webkit node scripts/run-tests.mjs tests/ui --project=webkit",
+    "test:integration": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=integration node scripts/run-tests.mjs tests/integration --project=chromium",
+    "test:regression": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=regression node scripts/run-tests.mjs --project=api --project=chromium",
+    "test:cross-browser": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers REPORT_NAME=cross-browser node scripts/run-tests.mjs tests/ui --project=chromium --project=firefox --project=webkit",
+    "test": "npm run test:regression",
+    "evidence:capture": "cross-env PLAYWRIGHT_BROWSERS_PATH=.playwright-browsers node scripts/capture-evidence.mjs",
+    "report": "playwright show-report playwright-report/regression"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.56.1",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0"
+  }
+}
