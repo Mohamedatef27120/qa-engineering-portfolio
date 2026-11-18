@@ -2,17 +2,18 @@
 
 ## Execution Summary
 
-| Field                 | Value                                |
-| --------------------- | ------------------------------------ |
-| Project               | TaskFlow QA Engineering Portfolio    |
-| Execution date        | 18 November 2026                     |
-| Execution type        | Local automated verification         |
-| Operating environment | Windows, Codex managed workspace     |
-| Node.js / npm         | 24.21.0 / 12.2.3                     |
-| Playwright Test       | 1.65.1                               |
-| Application           | Express 5.3.0, TypeScript 5.9.3      |
-| Application URL       | `http://127.0.0.1:4180`              |
-| Data model            | In-memory, unique workspace per test |
+| Field                  | Value                                                    |
+| ---------------------- | -------------------------------------------------------- |
+| Project                | TaskFlow QA Engineering Portfolio                        |
+| Execution date         | 18 November 2026                                         |
+| Execution type         | Local automated verification plus hosted CI verification |
+| Operating environments | Local Windows Codex workspace; GitHub-hosted Ubuntu      |
+| Local Node.js / npm    | 24.21.0 / 12.2.3                                         |
+| Hosted CI Node.js      | 22, as configured in the workflow                        |
+| Playwright Test        | 1.65.1                                                   |
+| Application            | Express 5.3.0, TypeScript 5.9.3                          |
+| Application URL        | `http://127.0.0.1:4180`                                  |
+| Data model             | In-memory, unique workspace per test                     |
 
 ## Honest Status Definitions
 
@@ -25,24 +26,40 @@ Manual test cases and exploratory charters remain **Not executed / Planned**. Th
 
 ## Final Results
 
-| Command / check             | Scope                                  | Actual result                        |
-| --------------------------- | -------------------------------------- | ------------------------------------ |
-| `npm run format:check`      | Repository formatting                  | Passed                               |
-| `npm run lint`              | Application, framework, tests, scripts | Passed                               |
-| `npm run typecheck`         | Strict TypeScript validation           | Passed                               |
-| `npm run build`             | Production compilation                 | Passed                               |
-| Production start smoke      | Compiled server and `/health`          | Passed                               |
-| `npm run test:api`          | 33 API tests                           | 33 passed                            |
-| `npm run test:ui`           | 13 Chromium UI tests                   | 13 passed                            |
-| `npm run test:integration`  | API → UI → API lifecycle               | 1 passed                             |
-| `npm run test:regression`   | API + Chromium + integration           | 47 passed                            |
-| Immediate regression repeat | Same 47-test baseline                  | 47 passed                            |
-| `npm run test:ui:webkit`    | 13 WebKit UI tests                     | 13 passed                            |
-| Firefox launch probe        | One Firefox scenario                   | Blocked before test execution        |
-| `npm audit`                 | Dependency vulnerability audit         | Passed; 0 vulnerabilities            |
-| GitHub Actions              | Hosted CI                              | Not executed; repository unpublished |
+| Command / check             | Scope                                  | Actual result                                                                                                                               |
+| --------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run format:check`      | Repository formatting                  | Passed                                                                                                                                      |
+| `npm run lint`              | Application, framework, tests, scripts | Passed                                                                                                                                      |
+| `npm run typecheck`         | Strict TypeScript validation           | Passed                                                                                                                                      |
+| `npm run build`             | Production compilation                 | Passed                                                                                                                                      |
+| Production start smoke      | Compiled server and `/health`          | Passed                                                                                                                                      |
+| `npm run test:api`          | 33 API tests                           | 33 passed                                                                                                                                   |
+| `npm run test:ui`           | 13 Chromium UI tests                   | 13 passed                                                                                                                                   |
+| `npm run test:integration`  | API → UI → API lifecycle               | 1 passed                                                                                                                                    |
+| `npm run test:regression`   | API + Chromium + integration           | 47 passed                                                                                                                                   |
+| Immediate regression repeat | Same 47-test baseline                  | 47 passed                                                                                                                                   |
+| `npm run test:ui:webkit`    | 13 WebKit UI tests                     | 13 passed                                                                                                                                   |
+| Firefox launch probe        | One Firefox scenario                   | Blocked before test execution                                                                                                               |
+| `npm audit`                 | Dependency vulnerability audit         | Passed; 0 vulnerabilities                                                                                                                   |
+| GitHub Actions              | Hosted CI                              | Succeeded — [run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121); all three jobs passed |
 
 The API, UI, and integration commands overlap with the regression suite. The project therefore has **47 unique baseline tests**, not a sum of every repeated command.
+
+## Hosted CI Verification
+
+| Field                                    | Verified value                                                                                            |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Repository                               | [Mohamedatef27120/qa-engineering-portfolio](https://github.com/Mohamedatef27120/qa-engineering-portfolio) |
+| Workflow                                 | QA regression                                                                                             |
+| Run                                      | [44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121)      |
+| Environment                              | GitHub-hosted Ubuntu with Node.js 22                                                                      |
+| Overall status                           | Success                                                                                                   |
+| Quality gates and Chromium regression    | Succeeded                                                                                                 |
+| Cross-browser UI — Firefox               | Succeeded                                                                                                 |
+| Cross-browser UI — WebKit                | Succeeded                                                                                                 |
+| Downloadable workflow evidence artifacts | Regression, Firefox, and WebKit artifacts uploaded                                                        |
+
+Hosted success does not rewrite the local browser record. Locally, Firefox executed zero tests because of the Windows sandbox launch failure; in hosted Linux CI, its full UI job succeeded. CI ran API, Chromium UI, and integration as separate commands once rather than repeating the combined local regression command.
 
 ## Repeatability Check
 
@@ -56,7 +73,7 @@ The final 47-test regression ran twice back to back with the same code and passe
 | WebKit         | Playwright WebKit 27.2          | 13/13 UI tests passed            |
 | Firefox        | Playwright Firefox 159.0        | 0 tests executed; launch blocked |
 
-Firefox exited during browser startup with `NS_ERROR_FAILURE` while attempting Windows registry access inside the managed sandbox. A serialized one-test probe produced the same result. No Firefox test reached TaskFlow QA, so this is an infrastructure blocker rather than a product failure. The GitHub Actions workflow retains a Firefox job on Ubuntu, but that job is unverified until publication.
+Firefox exited during browser startup with `NS_ERROR_FAILURE` while attempting Windows registry access inside the managed sandbox. A serialized one-test probe produced the same result. No local Firefox test reached TaskFlow QA, so this is an infrastructure blocker rather than a product failure. The Firefox UI job subsequently succeeded on GitHub-hosted Ubuntu in run 44394380121, confirming that the earlier blocker was specific to the local Windows sandbox.
 
 ## Coverage Executed
 
@@ -81,6 +98,7 @@ The detailed requirement mapping is in [Requirements Traceability](REQUIREMENTS_
 - HTML reports: generated under `playwright-report/<run-name>/` and ignored from Git because they are reproducible.
 - JUnit: generated under `test-results/<run-name>.xml` and ignored from Git.
 - Failure diagnostics: configured for screenshots, video, and traces under run-specific folders.
+- Hosted CI evidence: [successful GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121), with three downloadable evidence artifacts.
 - Tracked genuine screenshots:
   - [`screenshots/regression-report.png`](../screenshots/regression-report.png)
   - [`screenshots/taskflow-dashboard.png`](../screenshots/taskflow-dashboard.png)
@@ -94,18 +112,18 @@ The unresolved Firefox launch problem is listed as an infrastructure blocker in 
 
 ## Exit Criteria Review
 
-| Exit criterion                                    | Status                                                 |
-| ------------------------------------------------- | ------------------------------------------------------ |
-| App starts and health check responds              | Met locally                                            |
-| Formatting, lint, type-check, and build pass      | Met locally                                            |
-| API, Chromium UI, and integration regression pass | Met locally                                            |
-| HTML and JUnit reports generate                   | Met locally                                            |
-| Immediate repeat run passes                       | Met locally                                            |
-| Cross-browser coverage attempted                  | Partially met: Chromium/WebKit passed, Firefox blocked |
-| Manual/exploratory execution complete             | Not met; intentionally remains planned                 |
-| GitHub Actions verified                           | Not met; publication approval/authentication pending   |
-| No sensitive secrets committed                    | Met by local review; recheck before publication        |
+| Exit criterion                                    | Status                                                                                                                 |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| App starts and health check responds              | Met locally                                                                                                            |
+| Formatting, lint, type-check, and build pass      | Met locally                                                                                                            |
+| API, Chromium UI, and integration regression pass | Met locally                                                                                                            |
+| HTML and JUnit reports generate                   | Met locally                                                                                                            |
+| Immediate repeat run passes                       | Met locally                                                                                                            |
+| Cross-browser coverage attempted                  | Met in hosted CI: Chromium, Firefox, and WebKit jobs succeeded; locally Chromium/WebKit passed and Firefox was blocked |
+| Manual/exploratory execution complete             | Not met; intentionally remains planned                                                                                 |
+| GitHub Actions verified                           | Met: run 44394380121 succeeded                                                                                         |
+| No sensitive secrets committed                    | Met before publication; continue reviewing future changes                                                              |
 
 ## Sign-off
 
-The project is ready for local portfolio review and for a publication approval decision. It is not yet valid to claim a green GitHub Actions build or full three-engine local execution.
+The project is published and has a verified green GitHub Actions run. Local Windows evidence and hosted Ubuntu evidence remain reported separately: the local Firefox limitation is still genuine, while hosted Firefox succeeded. Manual and exploratory cases remain planned and unexecuted.

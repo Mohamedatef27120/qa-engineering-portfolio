@@ -40,7 +40,7 @@ There is no separate database. Task records and bearer-token sessions are stored
 | `tests/support/`     | Small test utilities                                             | Centralizes low-level helpers that are not page behavior                         |
 | `test-data/`         | Reusable, explicit test values/builders                          | Separates test intent from incidental data construction                          |
 | `docs/`              | QA strategy, cases, traceability, results, and learning material | Provides reviewable evidence of the STLC, not only automation code               |
-| `.github/workflows/` | Continuous-integration workflow                                  | Repeats quality gates in a clean hosted environment after publication            |
+| `.github/workflows/` | Continuous-integration workflow                                  | Repeats quality gates in the published repository's clean hosted environment     |
 
 See the source files in each directory for the final implementation names. This document describes responsibilities rather than treating filenames as an architectural boundary.
 
@@ -112,7 +112,7 @@ This is defense in depth. Unique workspaces provide the main isolation; reset su
 | `package.json`                 | Reproducible npm commands, including project-local browser installation                       |
 | `scripts/run-tests.mjs`        | Starts the app as a direct child, waits for `/health`, runs Playwright, and always stops it   |
 | `scripts/capture-evidence.mjs` | Captures genuine dashboard and completed regression-report screenshots                        |
-| `.github/workflows/tests.yml`  | Prepared hosted quality gates and report uploads                                              |
+| `.github/workflows/tests.yml`  | Verified hosted quality gates and report uploads                                              |
 
 ## Test architecture
 
@@ -176,7 +176,7 @@ Good fixture behavior is visible and bounded. A fixture should not create unrela
 
 The workflow is designed to install dependencies reproducibly, install required Playwright browser binaries, run static checks, start the application, execute the suites, and upload diagnostic artifacts. It must fail when a required check fails.
 
-The workflow file is prepared locally, but GitHub Actions has not been verified until the repository is published and a real workflow run completes. A local green run is evidence for the local environment, not proof that GitHub-hosted execution is green.
+The workflow was verified by successful [GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121). Its quality-gates/Chromium, Firefox, and WebKit jobs passed on GitHub-hosted Ubuntu and uploaded three evidence artifacts. Local and hosted results remain distinct evidence sets.
 
 ## Verified local snapshot — 2026-11-18
 
@@ -191,7 +191,7 @@ The workflow file is prepared locally, but GitHub Actions has not been verified 
 | Firefox UI project                                       | 0 executed; blocked before application tests because this Windows sandbox denied registry access at launch |
 | Evidence screenshots                                     | Genuine dashboard and 47-test regression-report screenshots captured by `npm run evidence:capture`         |
 
-The Firefox observation is an environment launch blocker, not an application assertion failure and not a passing result. The composite cross-browser command therefore was not fully green in this sandbox. GitHub-hosted CI and public repository publication remain unverified.
+The Firefox observation is an environment launch blocker, not an application assertion failure and not a passing local result. The composite cross-browser command therefore was not fully green in this sandbox. Firefox was blocked only in the managed Windows sandbox; the GitHub-hosted Ubuntu Firefox job passed in Actions run 44394380121.
 
 ## Important tradeoffs
 

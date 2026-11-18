@@ -7,7 +7,7 @@
 - **Automation status:** `Implemented — ...; passed locally 2026-11-18` is used only when the implemented test matches the case closely enough. `Partial` names narrower executed evidence, and `Planned` does not claim implementation.
 - Fixture names such as `writerDemo` and `viewerDemo` refer to documented local demo data, not personal credentials.
 
-Automated execution evidence is separate from manual execution: API passed 33/33, Chromium UI passed 13/13, Chromium integration passed 1/1, and the default 47-test regression passed twice (94/94 total); WebKit UI passed 13/13 on local Windows on 2026-11-18. Firefox executed 0 tests because it crashed before page access in the sandbox with `NS_ERROR_FAILURE` on Windows registry access. Final post-expansion formatting, lint, type-check, and build gates passed locally. Manual `Actual result` and `Execution status` columns remain `Not executed` and `Planned`. CI has not run.
+Automated execution evidence is separate from manual execution: API passed 33/33, Chromium UI passed 13/13, Chromium integration passed 1/1, and the default 47-test regression passed twice (94/94 total); WebKit UI passed 13/13 on local Windows on 2026-11-18. Firefox executed 0 tests because it crashed before page access in the Windows sandbox, while its GitHub-hosted Ubuntu UI job later passed. Final post-expansion formatting, lint, type-check, and build gates passed locally. Hosted run 44394380121 passed all three jobs. Manual `Actual result` and `Execution status` columns remain `Not executed` and `Planned`.
 
 ## Authentication and Authorization
 

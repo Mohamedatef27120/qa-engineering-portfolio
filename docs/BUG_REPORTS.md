@@ -10,7 +10,7 @@ No simulated or intentionally seeded defect is included in this log.
 
 ### Non-product infrastructure observation
 
-Playwright Firefox executed 0 tests because its browser process crashed before page access in this Windows sandbox with `NS_ERROR_FAILURE` while attempting registry access. Because no TaskFlow page was accessed and Chromium/WebKit coverage passed, this is classified as a local infrastructure limitation, not a TaskFlow product defect or Firefox test failure. GitHub Actions has not run because the repository is unpublished.
+Playwright Firefox executed 0 tests because its browser process crashed before page access in this Windows sandbox with `NS_ERROR_FAILURE` while attempting registry access. Because no TaskFlow page was accessed and Chromium/WebKit coverage passed, this is classified as a local infrastructure limitation, not a TaskFlow product defect or Firefox test failure. The GitHub-hosted Ubuntu Firefox job later passed in [Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121), confirming the blocker was environment-specific.
 
 ## Defect Lifecycle
 

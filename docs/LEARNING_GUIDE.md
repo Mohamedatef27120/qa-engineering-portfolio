@@ -50,7 +50,7 @@ The tradeoff is that this repository owns both the app and its tests. A real QA 
 | `.gitignore`                               | Excludes generated dependencies/reports, including `.playwright-browsers/`                    |
 | `tsconfig.json`                            | TypeScript checking rules                                                                     |
 | ESLint/Prettier configuration              | Consistent code-quality and formatting rules                                                  |
-| `.github/workflows/`                       | The hosted CI quality gates prepared for publication                                          |
+| `.github/workflows/`                       | The hosted CI quality gates verified in the published repository                              |
 | `docs/TEST_PLAN.md`                        | Scope, risks, entry criteria, and exit criteria                                               |
 | `docs/TEST_STRATEGY.md`                    | What belongs at each test layer and why                                                       |
 | `docs/TEST_CASES.md`                       | Manual cases with data, expected results, status, and automation mapping                      |
@@ -236,15 +236,15 @@ checkout -> Node setup/cache -> npm ci -> required browser in .playwright-browse
 
 The runner has no local uncommitted files and no previous in-memory data. That makes CI useful for finding hidden machine assumptions.
 
-The workflow exists locally, but it is not evidence of a successful hosted pipeline until the repository is published and a real run completes. Do not add a passing badge before its URL and status are valid.
+A workflow file alone is not evidence of a successful hosted pipeline; a real run must complete. That evidence now exists in successful run 44394380121, so the README uses a live badge and retains the immutable run link.
 
 ## What was actually verified locally
 
 On 2026-11-18, formatting, linting, type checking, and the TypeScript build passed. The API project passed 33/33 tests, Chromium UI passed 13/13, Chromium integration passed 1/1, and the combined regression passed 47/47 on two consecutive runs. WebKit UI passed 13/13.
 
-Firefox executed 0 tests in this Windows sandbox. Browser launch was blocked by a registry-access denial imposed by the environment. That is different from a failed product assertion: the Firefox result is **blocked**, and the full cross-browser command is not reported as green. A normal local machine or GitHub runner still needs to execute the Firefox project.
+Firefox executed 0 tests in this Windows sandbox. Browser launch was blocked by a registry-access denial imposed by the environment. That is different from a failed product assertion: the local Firefox result is **blocked**, and the local full cross-browser command is not reported as green. The Firefox project subsequently passed on GitHub-hosted Ubuntu in run 44394380121, showing why environment and product results must be separated.
 
-After the passing regression, `npm run evidence:capture` started the real application, created a visible task through the UI, served the actual regression report, and captured `screenshots/taskflow-dashboard.png` and `screenshots/regression-report.png`. These are genuine screenshots, not mockups. GitHub-hosted CI and repository publication remain unverified.
+After the passing regression, `npm run evidence:capture` started the real application, created a visible task through the UI, served the actual regression report, and captured `screenshots/taskflow-dashboard.png` and `screenshots/regression-report.png`. These are genuine screenshots, not mockups. The repository is public, and GitHub-hosted run 44394380121 passed all three jobs.
 
 ## How to add a new test
 
@@ -271,7 +271,7 @@ If the UI interaction repeats, add a focused Page Object method. Do not create a
 - Revisit risks when adding features or changing roles.
 - Keep test-only endpoints guarded by `TEST_MODE`.
 - Never commit reports containing secrets or unexpected personal data.
-- After publication, confirm GitHub Actions on the default branch and only then add a valid status badge.
+- After each significant push, confirm the latest Actions run and keep the badge and evidence links current.
 
 ## Honest project boundaries
 
@@ -280,6 +280,6 @@ If the UI interaction repeats, add a focused Page Object method. Do not create a
 - Identity and roles are simplified for local deterministic testing.
 - The application and QA framework share a repository.
 - No database, mobile app, load test, or production monitoring is claimed.
-- GitHub publication and hosted CI remain unverified until they actually occur.
+- GitHub publication and hosted CI are verified by successful run 44394380121; long-term CI history remains limited.
 
 Knowing these boundaries is a strength in an interview. It shows you can distinguish a purposeful portfolio design from production architecture.

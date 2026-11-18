@@ -23,10 +23,10 @@ git --version
 
 ## 1. Clone and enter the repository
 
-After the repository is published, replace the placeholder with its real URL:
+Clone the public repository:
 
 ```powershell
-git clone <repository-url>
+git clone https://github.com/Mohamedatef27120/qa-engineering-portfolio.git
 Set-Location qa-engineering-portfolio
 ```
 
@@ -227,7 +227,7 @@ This means `package.json` and `package-lock.json` do not agree. A maintainer sho
 
 ## GitHub Actions status
 
-The workflow can be reviewed locally, but it is not proven on GitHub until publication and an actual Actions run. At the time this guide was prepared, public repository creation, push, and hosted CI verification were still pending the owner's approval and available GitHub authentication.
+The public repository's [GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121) completed successfully. Its quality-gates/Chromium, Firefox, and WebKit jobs passed on GitHub-hosted Ubuntu, and three evidence artifacts were uploaded.
 
 ## Verified local results — 2026-11-18
 
@@ -242,4 +242,4 @@ The workflow can be reviewed locally, but it is not proven on GitHub until publi
 | `npm run test:ui:firefox`                           | 0 tests executed; browser launch blocked by this Windows sandbox's registry-access denial |
 | `npm run evidence:capture`                          | Genuine `taskflow-dashboard.png` and `regression-report.png` captured                     |
 
-Do not describe the Firefox run as a test failure in the product or as a pass: no Firefox test reached the application. The API, Chromium, integration, repeated regression, WebKit, and screenshot results are genuine local evidence. GitHub-hosted CI and public publication are still unverified.
+Do not describe the local Firefox run as a product failure or a local pass: no Firefox test reached the application in the Windows sandbox. The API, Chromium, integration, repeated regression, WebKit, and screenshot results are genuine local evidence. Firefox later passed on GitHub-hosted Ubuntu, and the public repository's first workflow run succeeded.

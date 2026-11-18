@@ -6,7 +6,7 @@ This is a strong entry-level QA portfolio because it presents connected evidence
 
 ## Strongest Points
 
-1. **Honest evidence.** The repository separates manual plans from executed automation, reports Firefox as blocked instead of failed, and does not claim unverified GitHub Actions success.
+1. **Honest evidence.** The repository separates manual plans from executed automation, distinguishes the local Firefox blocker from successful hosted Firefox execution, and links its verified GitHub Actions result.
 2. **Meaningful test design.** Boundary, negative, authorization, isolation, atomicity, error-contract, CRUD, query, UI, and cross-layer cases demonstrate more than happy-path clicking.
 3. **Reliability engineering.** Unique workspaces, session-bound ownership, scenario-owned records, no fixed waits, a guarded reset, and an owned server lifecycle make the suite repeatable.
 4. **Interview readability.** Page Objects and fixtures are useful without creating a deep abstraction maze, while the documentation explains why each part exists.
@@ -17,12 +17,12 @@ This is a strong entry-level QA portfolio because it presents connected evidence
 - The application and tests were designed together, so this does not prove experience testing a mature independently owned product.
 - In-memory persistence and demo authentication avoid database, migration, token-expiry, and production identity risks.
 - Manual and exploratory cases are well designed but still unexecuted.
-- Hosted CI and Firefox-on-Linux evidence do not exist until the repository is published.
+- Hosted CI and Firefox-on-Linux passed in Actions run 44394380121; only local Windows Firefox remains blocked.
 - The suite does not yet include automated accessibility analysis, performance testing, or broad security testing.
 
 ## Next Three Improvements
 
-1. **Publish and verify the pipeline.** Run GitHub Actions, fix any runner-specific issue, upload real artifacts, and add a status badge only after a successful run.
+1. **Build CI history.** Monitor workflow reliability across future changes, enable branch protection when appropriate, and review artifact and flake trends.
 2. **Introduce controlled persistence.** Add SQLite or PostgreSQL with migrations and a deterministic database reset strategy, then test persistence and data-integrity risks.
 3. **Add a complementary quality layer.** Execute the exploratory charters and add automated accessibility checks such as axe; record genuine findings and regression coverage.
 

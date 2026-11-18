@@ -1,5 +1,7 @@
 # TaskFlow QA — QA Engineering Portfolio
 
+[![QA regression](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/workflows/tests.yml)
+
 TaskFlow QA is a production-style software testing portfolio built around a small, local task-management application. The repository shows evidence of test planning, manual test design, UI and API automation, authorization testing, boundary analysis, traceability, debugging, reporting, and CI design—instead of only listing those skills.
 
 The application is intentionally modest. The QA engineering is the main product.
@@ -17,9 +19,20 @@ The application is intentionally modest. The QA engineering is the main product.
 | WebKit UI tests                     |                                              13/13 passed |
 | Firefox UI tests                    | 0 executed—browser launch blocked by this Windows sandbox |
 | Lint, formatting, type-check, build |                                                    Passed |
-| GitHub Actions                      |                       Configured, not yet run or verified |
 
 These runs overlap and are not added together as unique coverage. See the exact environment, commands, limitations, and evidence in the [test execution report](docs/TEST_EXECUTION_REPORT.md).
+
+## Verified Hosted CI Result
+
+[GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121) completed successfully on GitHub-hosted Ubuntu.
+
+| Hosted job                            | Verified result |
+| ------------------------------------- | --------------: |
+| Quality gates and Chromium regression |       Succeeded |
+| Cross-browser UI — Firefox            |       Succeeded |
+| Cross-browser UI — WebKit             |       Succeeded |
+
+The hosted result is separate from the local Windows evidence above. Firefox remained blocked by sandbox-specific Windows registry access locally, but its full UI job succeeded in hosted Linux CI. All three workflow evidence artifacts were uploaded successfully.
 
 ![TaskFlow QA task dashboard](screenshots/taskflow-dashboard.png)
 
@@ -37,7 +50,7 @@ These runs overlap and are not added together as unique coverage. See the exact 
 - Per-test workspace isolation, scenario-owned data, and a guarded test reset endpoint.
 - HTML and JUnit reporting, failure screenshots, video, and traces.
 - A GitHub Actions pipeline that gates formatting, lint, types, build, API, UI, integration, Firefox, and WebKit.
-- Honest evidence: manual work is not marked executed, Firefox is reported as blocked, and CI is not claimed as green before publication.
+- Honest evidence: manual work is not marked executed; local Firefox remained environment-blocked while hosted Linux Firefox succeeded; local and hosted results are reported separately.
 
 ## Application Under Test
 
@@ -92,7 +105,7 @@ The `X-Workspace-Id` chosen at login becomes part of the server session. Reusing
 Requirements: Node.js 20 or newer and npm.
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Mohamedatef27120/qa-engineering-portfolio.git
 cd qa-engineering-portfolio
 npm ci
 npm run browsers:install
@@ -193,7 +206,7 @@ The workflow at [`.github/workflows/tests.yml`](.github/workflows/tests.yml) per
 4. Firefox and WebKit UI jobs;
 5. upload of HTML, JUnit, screenshot, video, and trace evidence when present.
 
-No status badge is shown because the repository has not been published and GitHub Actions has not yet produced a real status. See [Publishing Guide](docs/PUBLISHING_GUIDE.md).
+The workflow is verified by successful [GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121). Its quality-gate/Chromium, Firefox, and WebKit jobs all succeeded and uploaded evidence artifacts. See the [Publishing Guide](docs/PUBLISHING_GUIDE.md) for the publication record.
 
 ## Learning and Interview Support
 
@@ -208,8 +221,8 @@ No status badge is shown because the repository has not been published and GitHu
 - Authentication uses documented demo users, not production identity infrastructure.
 - Application and tests live in one repository and were developed together.
 - Manual and exploratory cases have not been executed.
-- Firefox could not start inside this Windows sandbox; the Linux CI job is configured but unverified.
-- GitHub Actions and public repository metadata remain unverified until publication.
+- Firefox could not start inside the local Windows sandbox; its UI job succeeded on GitHub-hosted Ubuntu in run 44394380121.
+- The project has one verified hosted workflow run, not yet a long-term CI or flakiness history.
 - This is functional regression evidence, not performance, penetration, or compliance certification.
 
 ## What I Learned

@@ -1,80 +1,75 @@
-# GitHub Publishing Guide
+# GitHub Publication and Verification Record
 
-## Current Status
+## Published Repository
 
-The project is prepared locally. It has not been pushed, and GitHub Actions has not run. The GitHub CLI was not installed and no GitHub token was available during local verification.
-
-Publishing is intentionally a separate phase because it creates a public external resource. Review the repository name, visibility, and tracked files before running these commands.
-
-## Proposed Repository
-
-- Name: `qa-engineering-portfolio`
+- Repository: [Mohamedatef27120/qa-engineering-portfolio](https://github.com/Mohamedatef27120/qa-engineering-portfolio)
 - Visibility: public
-- Description: `Production-style QA portfolio with Playwright TypeScript UI/API automation, manual test design, traceability, and GitHub Actions.`
-- Topics: `qa`, `software-testing`, `playwright`, `typescript`, `api-testing`, `test-automation`, `sdet`, `github-actions`
+- Default branch: `main`
+- Initial published commit: `a6f3f31e1068c2e578b5ee50f5c752957df7a474`
+- Description: `Professional QA engineering portfolio featuring Playwright API, UI, integration, cross-browser tests, manual test design, traceability, and CI.`
+- Published: 18 November 2026
 
-## Review What Will Be Published
+The repository was created empty through the GitHub web interface, then the prepared local `main` branch was pushed over HTTPS. The remote and local commit hashes were verified as equal immediately after publication.
+
+## Verified Hosted CI
+
+[GitHub Actions run 44394380121](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/runs/44394380121) completed successfully on GitHub-hosted Ubuntu.
+
+| Job                                   | Result    |
+| ------------------------------------- | --------- |
+| Quality gates and Chromium regression | Succeeded |
+| Cross-browser UI — Firefox            | Succeeded |
+| Cross-browser UI — WebKit             | Succeeded |
+
+The quality-gates/Chromium job performed a clean checkout and `npm ci`, then ran formatting, lint, type-check, build, API, Chromium UI, and Chromium integration checks. The Firefox and WebKit matrix jobs each installed their browser and ran the full UI suite.
+
+Three downloadable workflow artifacts were verified after the run:
+
+- `playwright-regression-evidence`
+- `playwright-firefox-evidence`
+- `playwright-webkit-evidence`
+
+The hosted Firefox success is separate from the local Windows result. Firefox could not launch inside the managed Windows sandbox, while the same UI project passed on GitHub-hosted Ubuntu.
+
+## Live Status Badge
+
+[![QA regression](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/workflows/tests.yml)
+
+The badge reflects the latest `main` workflow state. The immutable run link above preserves the first verified publication result.
+
+## Review Before Future Pushes
 
 ```bash
 git status --short
-git ls-files
+git diff --check
 git log --oneline --decorate -5
+git ls-files
 ```
 
-Confirm that `.env`, `node_modules/`, `.playwright-browsers/`, raw reports, and test result artifacts are not tracked.
-
-## Option A: GitHub CLI
-
-After installing the GitHub CLI and authenticating:
+Confirm that `.env`, `node_modules/`, `.playwright-browsers/`, `dist/`, raw reports, and test-result artifacts remain untracked. Run the local gates before pushing:
 
 ```bash
-gh auth login
-gh repo create qa-engineering-portfolio \
-  --public \
-  --source=. \
-  --remote=origin \
-  --push \
-  --description "Production-style QA portfolio with Playwright TypeScript UI/API automation, manual test design, traceability, and GitHub Actions."
-
-gh repo edit \
-  --add-topic qa \
-  --add-topic software-testing \
-  --add-topic playwright \
-  --add-topic typescript \
-  --add-topic api-testing \
-  --add-topic test-automation \
-  --add-topic sdet \
-  --add-topic github-actions
+npm run format:check
+npm run lint
+npm run typecheck
+npm run build
+npm run test:regression
 ```
 
-## Option B: GitHub Web UI and Git
-
-Create an empty public repository named `qa-engineering-portfolio` without adding a README, license, or `.gitignore`, then run:
+## Safe Update Workflow
 
 ```bash
-git remote add origin https://github.com/<your-user>/qa-engineering-portfolio.git
-git branch -M main
-git push -u origin main
+git add <reviewed-files>
+git commit -m "<meaningful message>"
+git push origin main
 ```
 
-Never force-push or reuse these commands against an unrelated existing repository.
+After each significant push:
 
-## Verify the Remote and CI
+1. open the [QA regression workflow](https://github.com/Mohamedatef27120/qa-engineering-portfolio/actions/workflows/tests.yml);
+2. verify the quality-gates/Chromium, Firefox, and WebKit jobs;
+3. inspect failures before retrying or changing code;
+4. confirm evidence artifacts are available;
+5. keep README and execution-report claims aligned with actual runs.
 
-```bash
-git remote -v
-git ls-remote --heads origin main
-gh run list --workflow "QA regression" --limit 5
-gh run watch <run-id> --exit-status
-```
-
-After the workflow completes, verify:
-
-1. format, lint, type-check, and build are green;
-2. API, Chromium UI, and integration jobs are green;
-3. Firefox and WebKit jobs are green or accurately investigated;
-4. report/trace artifacts are downloadable;
-5. the README images render from the public repository;
-6. only then add a GitHub Actions status badge using the real repository URL.
-
-If a hosted runner fails, record the actual result and fix it before describing CI as passing.
+Never force-push `main` merely to hide a failed run. Preserve the failure evidence, correct the cause, and publish a new commit.

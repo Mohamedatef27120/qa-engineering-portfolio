@@ -80,20 +80,20 @@ The plan also demonstrates requirement analysis, risk-based prioritization, posi
 
 ## Test Environment
 
-| Component        | Local                                                                                           | CI                                                                                |
-| ---------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Operating system | Developer Windows environment                                                                   | GitHub-hosted Ubuntu runner                                                       |
-| Runtime          | Supported Node.js LTS documented in `package.json`                                              | Same pinned major version                                                         |
-| Server           | Local Express process with `TEST_MODE=true`                                                     | Workflow-managed Express process with `TEST_MODE=true` (not run yet)              |
-| Browser          | Playwright-managed Chromium and WebKit; Firefox attempted but blocked by sandbox launch failure | Playwright-managed Chromium; configured smoke projects as practical (not run yet) |
-| Data             | In-memory; empty on server start and isolated by generated workspace IDs                        | Fresh in-memory process per job (workflow not run yet)                            |
-| Reports          | HTML and JUnit, generated locally                                                               | HTML/JUnit plus uploaded traces/screenshots on failure (not run yet)              |
+| Component        | Local                                                                                           | CI                                                                                  |
+| ---------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Operating system | Developer Windows environment                                                                   | GitHub-hosted Ubuntu runner                                                         |
+| Runtime          | Node.js 20 or newer; local evidence used Node.js 24                                             | Node.js 22, pinned in the workflow                                                  |
+| Server           | Local Express process with `TEST_MODE=true`                                                     | Workflow-managed Express process with `TEST_MODE=true`; verified in run 44394380121 |
+| Browser          | Playwright-managed Chromium and WebKit; Firefox attempted but blocked by sandbox launch failure | Chromium, Firefox, and WebKit jobs passed on GitHub-hosted Ubuntu                   |
+| Data             | In-memory; empty on server start and isolated by generated workspace IDs                        | Fresh in-memory process per job; verified                                           |
+| Reports          | HTML and JUnit, generated locally                                                               | HTML/JUnit plus three uploaded workflow evidence artifacts                          |
 
 No external application, paid service, personal account, or secret is required.
 
 ## Verified Local Snapshot — 2026-11-18
 
-On local Windows, API passed 33/33, Chromium UI passed 13/13, Chromium integration passed 1/1, and the default 47-test regression passed twice (94/94 total repeatability evidence). WebKit UI passed 13/13. Firefox executed 0 tests because its browser process crashed before page access in this sandbox with `NS_ERROR_FAILURE` during Windows registry access. Final post-expansion formatting, lint, type-check, and build gates passed locally. Manual cases and exploratory charters remain unexecuted. GitHub Actions has not run because the repository has not been published.
+On local Windows, API passed 33/33, Chromium UI passed 13/13, Chromium integration passed 1/1, and the default 47-test regression passed twice (94/94 total repeatability evidence). WebKit UI passed 13/13. Firefox executed 0 tests because its browser process crashed before page access in this sandbox with `NS_ERROR_FAILURE` during Windows registry access. Final static gates passed locally. Manual cases and exploratory charters remain unexecuted. The public repository's Actions run 44394380121 passed its quality-gates/Chromium, Firefox, and WebKit jobs; hosted Firefox success does not rewrite the blocked local result.
 
 ## Entry Criteria
 
@@ -160,7 +160,7 @@ Genuine unexpected behavior is recorded in `BUG_REPORTS.md` with severity, prior
 
 ## Roles and Responsibilities
 
-The portfolio owner acts as test analyst and automation engineer: maintaining requirements, selecting coverage, implementing tests, triaging failures, documenting genuine defects, and keeping evidence current. The GitHub Actions workflow is configured to perform repeatable automated verification after publication, but it has not been run and does not replace human result review.
+The portfolio owner acts as test analyst and automation engineer: maintaining requirements, selecting coverage, implementing tests, triaging failures, documenting genuine defects, and keeping evidence current. The GitHub Actions workflow performed repeatable automated verification successfully in run 44394380121, but automation still does not replace human result review.
 
 ## Assumptions and Limitations
 
@@ -169,5 +169,5 @@ The portfolio owner acts as test analyst and automation engineer: maintaining re
 - Data is intentionally in memory and is cleared by server start/restart.
 - On the 2026-11-18 Windows run, Chromium UI passed 13/13, Chromium integration passed 1/1, the default 47-test regression passed twice (94/94 total), and WebKit UI passed 13/13. Firefox executed 0 tests because the Playwright Firefox process crashed before page access with `NS_ERROR_FAILURE` while attempting Windows registry access in the sandbox; this is an infrastructure limitation, not a product result.
 - Final post-expansion formatting, lint, type-check, and build gates passed locally.
-- The repository is unpublished and GitHub Actions has not run, so CI behavior is configured but unverified.
+- The repository is public, and GitHub Actions run 44394380121 succeeded with all three jobs passing and three evidence artifacts uploaded.
 - Performance and security claims are limited to the explicit checks in this plan.

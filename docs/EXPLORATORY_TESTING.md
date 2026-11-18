@@ -4,7 +4,7 @@
 
 Scripted checks confirm known expectations. Exploratory testing investigates how the product behaves when a tester learns, designs, and executes tests at the same time. These charters are planned; no session or observation is claimed until a dated session record is added.
 
-The successful 2026-11-18 automated runs (default regression 47/47 twice, plus WebKit UI 13/13) do not count as exploratory sessions. All six charters below remain unexecuted. Firefox's pre-page-access sandbox crash, the pending final static-gate rerun, and the unrun GitHub workflow also provide no exploratory product result.
+The successful 2026-11-18 local and hosted automated runs do not count as exploratory sessions. All six charters below remain unexecuted. Firefox's local pre-page-access sandbox crash is an environment observation, while the successful hosted Firefox job is automated compatibility evidence; neither is an exploratory session.
 
 ## Session Rules
 

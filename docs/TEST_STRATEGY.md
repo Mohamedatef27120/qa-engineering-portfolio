@@ -15,7 +15,7 @@ The highest risks are unauthorized mutation, cross-workspace data exposure, inco
   static checks + deterministic test-data foundation
 ```
 
-This is a coverage model, not a claim about production quality. The verified local evidence from 2026-11-18 is: API 33/33 passed; Chromium UI 13/13 passed; Chromium integration 1/1 passed; the default 47-test regression passed twice (94/94 total); and WebKit UI 13/13 passed. Final post-expansion formatting, lint, type-check, and build gates passed locally. Manual and exploratory cases remain unexecuted, and CI has not run.
+This is a coverage model, not a claim about production quality. The verified local evidence from 2026-11-18 is: API 33/33 passed; Chromium UI 13/13 passed; Chromium integration 1/1 passed; the default 47-test regression passed twice (94/94 total); and WebKit UI 13/13 passed. Final post-expansion formatting, lint, type-check, and build gates passed locally. Manual and exploratory cases remain unexecuted. Hosted Actions run 44394380121 passed its quality-gates/Chromium, Firefox, and WebKit jobs.
 
 ## Coverage by Layer
 
@@ -24,7 +24,7 @@ This is a coverage model, not a claim about production quality. The verified loc
 - TypeScript compilation without emitting output.
 - ESLint for correctness and maintainability rules.
 - Prettier check for consistent formatting.
-- Secret/sensitive-file review before publication.
+- Secret/sensitive-file review before every release or significant push.
 
 ### API Automation
 
@@ -133,7 +133,7 @@ Playwright produces HTML and JUnit reports. UI failures retain a screenshot and 
 
 ## Browser Strategy
 
-Chromium is the required regression browser because it balances recruiter reproducibility and run time. On 2026-11-18, Chromium UI passed 13/13 and integration passed 1/1; the default 47-test regression passed twice for 94/94 total repeatability evidence; WebKit UI passed 13/13. Firefox executed 0 tests because the Playwright Firefox process crashed before page access in this Windows sandbox with `NS_ERROR_FAILURE` while attempting registry access. That launch failure is an infrastructure limitation, not a product defect or Firefox pass/fail result. A focused 375 px check passed; the complete mobile manual workflow and 1280 px review remain planned.
+Chromium is the required local regression browser because it balances recruiter reproducibility and run time. On 2026-11-18, Chromium UI passed 13/13 and integration passed 1/1; the default 47-test regression passed twice for 94/94 total repeatability evidence; WebKit UI passed 13/13. Firefox executed 0 tests because the Playwright Firefox process crashed before page access in this Windows sandbox with `NS_ERROR_FAILURE` while attempting registry access. That launch failure is an infrastructure limitation, not a product defect or local Firefox result. The Firefox and WebKit jobs both passed on GitHub-hosted Ubuntu in run 44394380121. A focused 375 px check passed; the complete mobile manual workflow and 1280 px review remain planned.
 
 ## CI Quality Gates
 
@@ -147,7 +147,7 @@ The intended pipeline order is:
 6. Run UI regression/smoke tests.
 7. Upload reports, screenshots, and traces even when a test fails.
 
-Required checks fail the workflow on failure. Artifact upload uses an `always()` condition so debugging evidence survives a red run. This workflow is configured but has not run because the repository is unpublished; no CI success is claimed.
+Required checks fail the workflow on failure. Artifact upload uses an `always()` condition so debugging evidence survives a red run. The workflow was verified successfully in run 44394380121; all three jobs passed, and regression, Firefox, and WebKit artifacts were uploaded.
 
 ## Regression Selection
 

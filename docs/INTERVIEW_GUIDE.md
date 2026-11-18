@@ -4,7 +4,7 @@ Use these answers as a structure, not a script to memorize word for word. Replac
 
 ## 30-second introduction
 
-> TaskFlow QA is a production-style testing portfolio around a small local task-management application. I designed manual coverage and Playwright automation for its API, UI, and API-to-UI integration. Tests use isolated workspaces, and the local regression passed 47/47 twice. API passed 33/33, Chromium UI 13/13, integration 1/1, and WebKit UI 13/13. Firefox executed zero tests because this Windows sandbox blocked browser launch, and GitHub CI is not yet verified.
+> TaskFlow QA is a production-style testing portfolio around a small local task-management application. I designed manual coverage and Playwright automation for its API, UI, and API-to-UI integration. Tests use isolated workspaces, and the local regression passed 47/47 twice. API passed 33/33, Chromium UI 13/13, integration 1/1, and WebKit UI 13/13. Firefox executed zero tests because this Windows sandbox blocked browser launch. The repository is public, and GitHub Actions run 44394380121 passed its quality-gates/Chromium, Firefox, and WebKit jobs.
 
 ## Two-minute walkthrough
 
@@ -14,7 +14,7 @@ Use these answers as a structure, not a script to memorize word for word. Replac
 >
 > I split coverage by risk and speed. API tests cover the detailed HTTP contract and negative combinations. UI tests cover the most valuable user workflows. Integration tests create or inspect data across both interfaces. Repeated UI interactions are in a Page Object, while expected results stay visible in the specs. Playwright produces HTML and JUnit output and retains failure evidence according to configuration.
 >
-> The repository also shows the manual side of QA: scope, risks, equivalence partitions, boundaries, exploratory charters, severity/priority, cases, and requirements traceability. Results are only marked executed when they really ran. The dashboard and 47-test report screenshots were captured from the real app and report. Firefox is recorded as launch-blocked, not misreported as a product failure or pass. The GitHub workflow is prepared, but I would not call CI verified until the repository is published and a real Actions run completes.
+> The repository also shows the manual side of QA: scope, risks, equivalence partitions, boundaries, exploratory charters, severity/priority, cases, and requirements traceability. Results are only marked executed when they really ran. The dashboard and 47-test report screenshots were captured from the real app and report. Firefox is recorded as locally launch-blocked, not misreported as a product failure or pass, while the hosted Ubuntu Firefox job passed. The GitHub workflow is verified by successful run 44394380121, with all three jobs passing.
 
 ## Five-minute technical explanation
 
@@ -40,11 +40,11 @@ Every test sends `X-Workspace-Id`. The in-memory store partitions records by wor
 
 ### 5. CI and honest evidence
 
-The workflow is designed to run dependency installation, project-local browser installation, lint, type checking, the application, and test suites in a clean environment, then upload reports and traces. Locally prepared workflow code is not the same as a successful GitHub run, so the README and execution report must distinguish local verification from hosted CI verification.
+The workflow runs dependency installation, project-local browser installation, lint, type checking, the application, and test suites in a clean environment, then uploads reports and traces. Locally prepared workflow code is not the same as a successful GitHub run, so the README and execution report distinguish local verification from hosted CI verification. For this project, run 44394380121 now provides that hosted evidence.
 
 ### 6. Limits and next steps
 
-The data store is not persistent, roles are simplified, and app/test code share a repository. The most useful next improvements would be a real test database with migration/reset strategy, real authentication/authorization, and verified GitHub CI with trend or accessibility evidence. I would add those only with matching requirements and maintainable tests.
+The data store is not persistent, roles are simplified, and app/test code share a repository. The most useful next improvements would be a real test database with migration/reset strategy, real authentication/authorization, and accessibility coverage plus longer-term CI trend evidence. I would add those only with matching requirements and maintainable tests.
 
 ## Common junior QA questions
 
@@ -124,19 +124,17 @@ Creating a precondition through the API is faster and more precise than repeatin
 
 ### What happens in your pipeline?
 
-The prepared workflow checks out a clean repository, configures Node dependency caching, installs locked dependencies and Playwright requirements, runs lint and type checks, executes the configured test suites, and uploads reports and failure diagnostics. A required failure should fail the job.
+The published workflow checks out a clean repository, configures Node dependency caching, installs locked dependencies and Playwright requirements, runs formatting, lint, type checks, the build, and configured test suites, then uploads reports and failure diagnostics. A required failure fails the job.
 
 ### Is your CI currently passing?
 
-Use the fact that is true on interview day. Before publication, the honest answer is:
+Verify the latest badge and workflow before the interview. The current evidence-based answer is:
 
-> The workflow is implemented and locally reviewable, but it is not yet verified on GitHub because public publication and an Actions run have not occurred. I keep that limitation visible rather than displaying an unverified badge.
-
-After a real run, cite the exact branch, commit, and outcome from the repository.
+> Yes. The public repository's GitHub Actions run 44394380121 succeeded on `main` for commit `a6f3f31`. Its quality-gates/Chromium, Firefox, and WebKit jobs all passed, and the README badge links to the workflow.
 
 ### Did cross-browser testing pass?
 
-> Chromium UI passed 13/13 and WebKit UI passed 13/13 locally. Firefox executed 0 tests because the Windows sandbox denied registry access during browser launch. I therefore do not call the combined cross-browser run green, and I do not classify that launch blocker as a product defect. Firefox still needs verification on a normal machine or GitHub runner.
+> Chromium UI passed 13/13 and WebKit UI passed 13/13 locally. Firefox executed 0 tests because the Windows sandbox denied registry access during browser launch. I therefore do not call the local combined cross-browser run green, and I do not classify that launch blocker as a product defect. The Firefox UI job later passed on GitHub-hosted Ubuntu in run 44394380121, confirming the local blocker was environment-specific.
 
 ### Why use `npm ci` instead of `npm install` in CI?
 
@@ -203,4 +201,4 @@ Before the interview, test both focused commands in the demo environment. Never 
 
 ## Honest closing statement
 
-> This project demonstrates how I think about quality: start from requirements and risk, choose the right test layer, control data, make failures diagnosable, and report only evidence I actually have. It is intentionally not a production platform. Its current limits—ephemeral tasks and sessions, simplified identity, a Firefox sandbox launch blocker, and pending hosted CI verification—are documented, and I can explain the engineering path to address each one.
+> This project demonstrates how I think about quality: start from requirements and risk, choose the right test layer, control data, make failures diagnosable, and report only evidence I actually have. It is intentionally not a production platform. Its current limits—ephemeral tasks and sessions, simplified identity, a local Firefox sandbox launch blocker, and limited CI history—are documented. Hosted Firefox and the full GitHub workflow passed, and I can explain the engineering path for the remaining limitations.
